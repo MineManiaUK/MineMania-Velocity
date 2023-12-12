@@ -335,4 +335,41 @@ public class User {
             exception.printStackTrace();
         }
     }
+
+    /**
+     * Used to check if a user is vanished.
+     *
+     * @return True if they are vanished.
+     */
+    public boolean isVanished() {
+        if (this.player == null) return false;
+
+        // If they are unable to vanish return false
+        if (this.isNotVanishable()) return false;
+
+        ProxyServerAdapter proxyServerInterface = new ProxyServerAdapter(MineManiaMenus.getServer());
+        RegisteredServer server = this.getConnectedServer();
+
+        // If they are not connected to a server they are vanished
+        if (server == null) return true;
+
+        Player unableToVanishPlayer = proxyServerInterface.getNotVanishablePlayer(server);
+
+        // If there are no players online that can not vanish
+        // we assume they are vanished.
+        if (unableToVanishPlayer == null) return true;
+
+        // Check if this player can be seen on the tab list by
+        // players that cannot vanish.
+        return !unableToVanishPlayer.getTabList().containsEntry(this.player.getUniqueId());
+    }
+
+    /**
+     * Used to check if a user is able to vanish.
+     *
+     * @return True if the player is able to vanish.
+     */
+    public boolean isNotVanishable() {
+        return !this.hasPermission("leaf.vanishable");
+    }
 }
