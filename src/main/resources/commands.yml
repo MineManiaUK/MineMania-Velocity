@@ -1,0 +1,4 @@
+main_menu:
+  type: "mainmenu"
+  name: "menu"
+  enabled: true
