@@ -28,6 +28,7 @@ import java.util.List;
 
 /**
  * Represents a configuration handler.
+ * Represents a directory that contains files.
  */
 public abstract class ConfigurationHandler {
 

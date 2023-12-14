@@ -21,7 +21,6 @@
 package com.github.minemaniauk.minemaniamenus.command;
 
 import com.github.minemaniauk.minemaniamenus.MessageManager;
-import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.Sounds;
 import com.github.minemaniauk.minemaniamenus.User;
 import com.github.minemaniauk.minemaniamenus.configuration.ConfigMessages;
@@ -31,7 +30,6 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import dev.simplix.protocolize.data.Sound;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;

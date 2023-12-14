@@ -201,16 +201,9 @@ public class MessageManager {
     public static void logHeader() {
         final String message = """
                 &7
-                &a __         ______     ______     ______
-                &a/\\ \\       /\\  ___\\   /\\  __ \\   /\\  ___\\
-                &a\\ \\ \\____  \\ \\  __\\   \\ \\  __ \\  \\ \\  __\\
-                &a \\ \\_____\\  \\ \\_____\\  \\ \\_\\ \\_\\  \\ \\_\\
-                &a  \\/_____/   \\/_____/   \\/_/\\/_/   \\/_/
+                &a MineManiaMenus
                 &7
-                      &7By Smudge    Version &b%s
-                &7
-                &7● &aEnabled &7Discord Support &f~10mib
-                &7● &aEnabled &7Database Support &f~10mib
+                &a &7By MineManiaUK    Version &b%s
                 &7
                 """.formatted(MineManiaMenus.class.getAnnotation(Plugin.class).version());
 

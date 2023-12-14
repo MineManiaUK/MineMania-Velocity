@@ -41,6 +41,9 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.file.Path;
 import java.util.Optional;
 
+/**
+ * Represents the main plugin class.
+ */
 @Plugin(
         id = "minemaniamenus",
         name = "MineManiaMenus",
@@ -60,18 +63,6 @@ public class MineManiaMenus {
         MineManiaMenus.componentLogger = componentLogger;
 
         ConfigurationManager.initialise(folder.toFile());
-
-//        // Set up the configuration file.
-//        this.configuration = ConfigurationFactory.YAML
-//                .create(folder.toFile(), "config")
-//                .setDefaultPath("config.yml");
-//        this.configuration.load();
-
-//        // Set up the mine mania api connection.
-//        this.api = MineManiaAPI.createAndSet(
-//                this.configuration,
-//                this
-//        );
     }
 
     @Subscribe
@@ -104,23 +95,50 @@ public class MineManiaMenus {
         }
     }
 
+    /**
+     * Used to get the plugin's component logger.
+     *
+     * @return The component logger.
+     */
     public static ComponentLogger getComponentLogger() {
         return componentLogger;
     }
 
+    /**
+     * Used to get the instance of the proxy server.
+     *
+     * @return The proxy server.
+     */
     public static ProxyServer getServer() {
         return server;
     }
 
+    /**
+     * Used to get this instance.
+     *
+     * @return This instance.
+     */
     public static MineManiaMenus getPlugin() {
         return instance;
     }
 
+    /**
+     * Used to get the number of players online for a specific server.
+     *
+     * @param serverName The name of the server.
+     * @return The amount of players online.
+     */
     public static int getAmountOnline(String serverName) {
         Optional<RegisteredServer> optionalRegisteredServer = MineManiaMenus.server.getServer(serverName);
         return optionalRegisteredServer.map(registeredServer -> getAmountOnline(optionalRegisteredServer.get())).orElse(0);
     }
 
+    /**
+     * Used to get the number of players online for a specific server.
+     *
+     * @param registeredServer The instance of the registered server.
+     * @return The number of players online, not including vanished players.
+     */
     public static int getAmountOnline(@NotNull RegisteredServer registeredServer) {
         int amount = 0;
         for (Player player : registeredServer.getPlayersConnected()) {
@@ -130,6 +148,9 @@ public class MineManiaMenus {
         return amount;
     }
 
+    /**
+     * Used to reload the plugin's commands.
+     */
     public static void reloadCommands() {
         MineManiaMenus.commandHandler.unregister();
 

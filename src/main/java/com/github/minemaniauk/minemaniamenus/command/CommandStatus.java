@@ -20,9 +20,7 @@
 
 package com.github.minemaniauk.minemaniamenus.command;
 
-import com.github.minemaniauk.minemaniamenus.User;
 import com.github.minemaniauk.minemaniamenus.configuration.ConfigMessages;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * <h1>Represents a command's status.</h1>

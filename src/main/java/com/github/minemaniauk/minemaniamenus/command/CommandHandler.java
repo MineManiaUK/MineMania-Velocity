@@ -96,31 +96,31 @@ public class CommandHandler {
         CommandManager manager = MineManiaMenus.getServer().getCommandManager();
 
         for (Command command : this.commands) {
-            // Check if command is enabled
+            // Check if command is enabled.
             if (!command.isEnabled()) {
                 MessageManager.log("&7[Commands] " + command.getIdentifier() + " is disabled in the configuration file.");
                 continue;
             }
 
-            // Log enable message
+            // Log enable message.
             MessageManager.log("&7[Commands] &aEnabling &7command : " + command.getName());
 
-            // Load subcommands
+            // Load subcommands.
             command.getBaseCommandType().loadSubCommands();
             command.getBaseCommandType().initialiseSubCommands(command.getSection());
 
-            // Check if the command is valid
+            // Check if the command is valid.
             if (command.getName() == null) {
                 MessageManager.warn("&7[Commands] &f[command] &e: Command name not specified in the configuration file."
                         .replace("[command]", command.getIdentifier()));
                 continue;
             }
 
-            // Register main command name
+            // Register the main command name.
             manager.register(manager.metaBuilder(command.getName()).build(), command);
             this.registeredCommands.add(command.getName());
 
-            // Register aliases if they exist
+            // Register aliases if they exist.
             if (command.getAliases().get().isEmpty()) continue;
 
             for (String alias : command.getAliases().get()) {

@@ -22,8 +22,12 @@ package com.github.minemaniauk.minemaniamenus.command;
 
 import com.github.minemaniauk.minemaniamenus.User;
 import com.github.smuddgge.squishyconfiguration.interfaces.ConfigurationSection;
-import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a command type.
+ * Commands types can be referenced in the command directory files
+ * and used to make commands.
+ */
 public interface CommandType {
 
     /**

@@ -27,6 +27,10 @@ import com.github.minemaniauk.minemaniamenus.command.CommandSuggestions;
 import com.github.minemaniauk.minemaniamenus.inventory.MainMenuInventory;
 import com.github.smuddgge.squishyconfiguration.interfaces.ConfigurationSection;
 
+/**
+ * Represents the main menu command.
+ * Used to open the main menu.
+ */
 public class MainMenu extends BaseCommandType {
 
     @Override
