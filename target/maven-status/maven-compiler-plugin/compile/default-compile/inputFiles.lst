@@ -6,10 +6,13 @@
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersAdapter.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationManager.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/CommandSuggestions.java
+/Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/type/MainMenu.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/CommandType.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/MineManiaMenus.java
+/Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/ProxyServerAdapter.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/BaseCommandType.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/CommandStatus.java
+/Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/User.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/CommandAliases.java
 /Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus/src/main/java/com/github/minemaniauk/minemaniamenus/command/Command.java
