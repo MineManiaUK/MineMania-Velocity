@@ -17,6 +17,7 @@ com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersAdapter.class
 com/github/minemaniauk/minemaniamenus/command/CommandAliases.class
 com/github/minemaniauk/minemaniamenus/ProxyServerAdapter.class
 com/github/minemaniauk/minemaniamenus/command/type/MainMenu.class
+com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory$2.class
 com/github/minemaniauk/minemaniamenus/User.class
 com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory.class
 com/github/minemaniauk/minemaniamenus/configuration/ConfigurationHandler.class

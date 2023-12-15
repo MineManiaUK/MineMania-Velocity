@@ -73,18 +73,44 @@ public class MainMenuInventory extends Inventory {
     private void onOpen(@NotNull Player player, @NotNull Inventory inventory) {
         User user = new User(player);
 
-        // Create the smp items.
-        inventory.setItem(new InventoryItem()
+        // Create the smp item.
+        this.setTeleportItem(user,
+                "smp",
+                "&a&lSMP",
+                "&7Click to teleport to the public smp.",
+                0, 1, 9, 10
+        );
+
+        // Create the world of calm item.
+        this.setTeleportItem(user,
+                "worldofcalm",
+                "&b&lWorld of Calm",
+                "&7Click to teleport to the world of calm.",
+                2, 3, 11, 12
+        );
+
+        // Create the red-stone item.
+        this.setTeleportItem(user,
+                "redstone",
+                "&c&lRedstone",
+                "&7Click to teleport to the redstone world.",
+                6, 7, 15, 16
+        );
+    }
+
+    private void setTeleportItem(@NotNull User user, @NotNull String serverName, @NotNull String title, @NotNull String loreLine, int... slots) {
+        this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
-                .setName("&a&lSMP")
-                .addLore("&7Click to join the public smp!")
+                .setCustomModelData(1)
+                .setName(title)
+                .addLore(loreLine)
                 .addLore("&7")
-                .addLore("&aOnline &f" + MineManiaMenus.getAmountOnline("smp"))
-                .addSlots(0, 1, 9, 10)
+                .addLore("&aOnline &f" + MineManiaMenus.getAmountOnline(serverName))
+                .addSlots(slots)
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-                        Optional<RegisteredServer> optionalRegisteredServer = MineManiaMenus.getServer().getServer("smp");
+                        Optional<RegisteredServer> optionalRegisteredServer = MineManiaMenus.getServer().getServer(serverName);
 
                         // Check if the server doesn't currently exist.
                         if (optionalRegisteredServer.isEmpty()) {
@@ -93,8 +119,8 @@ public class MainMenuInventory extends Inventory {
                         }
 
                         // Otherwise, attempt connecting them to the server.
-                        user.sendMessage("&7Teleporting to &fSMP...");
-                        new User(player).send(optionalRegisteredServer.get());
+                        user.sendMessage("&7Teleporting to &f" + serverName + "...");
+                        user.send(optionalRegisteredServer.get());
                         return new ActionResult();
                     }
                 })
