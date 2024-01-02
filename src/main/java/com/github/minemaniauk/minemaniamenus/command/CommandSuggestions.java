@@ -20,7 +20,7 @@
 
 package com.github.minemaniauk.minemaniamenus.command;
 
-import com.github.minemaniauk.minemaniamenus.PlayerUtility;
+import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.User;
 import com.github.smuddgge.squishyconfiguration.interfaces.ConfigurationSection;
 
@@ -100,7 +100,7 @@ public class CommandSuggestions {
      * @return This instance.
      */
     public CommandSuggestions appendPlayers() {
-        this.data.add(PlayerUtility.getPlayers());
+        this.data.add(MineManiaMenus.getInstance().getPlayers());
         return this;
     }
 

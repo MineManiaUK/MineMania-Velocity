@@ -20,6 +20,9 @@
 
 package com.github.minemaniauk.minemaniamenus;
 
+import com.github.minemaniauk.api.MineManiaAPIContract;
+import com.github.minemaniauk.api.database.collection.UserCollection;
+import com.github.minemaniauk.api.database.record.UserRecord;
 import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
@@ -294,7 +297,7 @@ public class User {
         int amountOfPlayers = 0;
 
         for (String tempServer : servers) {
-            Optional<RegisteredServer> optionalTempServer = MineManiaMenus.getServer().getServer(tempServer);
+            Optional<RegisteredServer> optionalTempServer = MineManiaMenus.getInstance().getProxyServer().getServer(tempServer);
             if (optionalTempServer.isEmpty()) continue;
 
             // Get the amount of players on the server.
@@ -346,8 +349,8 @@ public class User {
                     return;
                 }
 
-                MineManiaMenus.getServer().getScheduler().buildTask(
-                        MineManiaMenus.getPlugin(), () -> this.forceSend(server, depth - 1)
+                MineManiaMenus.getInstance().getProxyServer().getScheduler().buildTask(
+                        MineManiaMenus.getInstance(), () -> this.forceSend(server, depth - 1)
                 ).delay(Duration.ofSeconds(1)).schedule();
             }
 
@@ -367,15 +370,14 @@ public class User {
         // If they are unable to vanish return false
         if (this.isNotVanishable()) return false;
 
-        ProxyServerAdapter proxyServerInterface = new ProxyServerAdapter(MineManiaMenus.getServer());
         RegisteredServer server = this.getConnectedServer();
 
         // If they are not connected to a server they are vanished
         if (server == null) return true;
 
-        Player unableToVanishPlayer = proxyServerInterface.getNotVanishablePlayer(server);
+        Player unableToVanishPlayer = MineManiaMenus.getInstance().getNotVanishablePlayer(server);
 
-        // If there are no players online that can not vanish
+        // If there are no players online that cannot vanish,
         // we assume they are vanished.
         if (unableToVanishPlayer == null) return true;
 
@@ -395,5 +397,15 @@ public class User {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public long getPaws() {
+        return MineManiaMenus.getInstance()
+                .getAPI()
+                .getDatabase()
+                .getTable(UserCollection.class)
+                .getUserRecord(this.player.getUniqueId())
+                .orElse(new UserRecord())
+                .getPaws();
     }
 }

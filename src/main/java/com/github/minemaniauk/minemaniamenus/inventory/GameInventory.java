@@ -21,7 +21,6 @@
 package com.github.minemaniauk.minemaniamenus.inventory;
 
 import com.github.minemaniauk.minemaniamenus.MessageManager;
-import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.User;
 import com.github.smuddgge.velocityinventory.Inventory;
 import com.github.smuddgge.velocityinventory.InventoryItem;
@@ -29,36 +28,31 @@ import com.github.smuddgge.velocityinventory.action.ActionResult;
 import com.github.smuddgge.velocityinventory.action.action.ClickAction;
 import com.github.smuddgge.velocityinventory.action.action.OpenAction;
 import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 import dev.simplix.protocolize.api.inventory.InventoryClick;
 import dev.simplix.protocolize.data.ItemType;
 import dev.simplix.protocolize.data.inventory.InventoryType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
-
 /**
- * Represents the main menu inventory.
- * You can create a new instance of this and use the
- * {@link Inventory#open(Player)} method to open the
- * inventory for a player.
+ * Represents the game inventory.
+ * Shows all the games a player can play and the rooms.
  */
-public class MainMenuInventory extends Inventory {
+public class GameInventory extends Inventory {
 
     /**
-     * Used to create a new instance of the main menu inventory.
+     * Used to create the game inventory.
      */
-    public MainMenuInventory() {
+    public GameInventory() {
         super(InventoryType.GENERIC_9X6);
 
         // Custom inventory character.
-        this.setTitle(MessageManager.convertToLegacy("&f₴₴₴₴₴₴₴₴☀"));
+        this.setTitle(MessageManager.convertToLegacy("&f₴₴₴₴₴₴₴₴⏅"));
 
         // Add open action.
         this.addAction(new OpenAction() {
             @Override
             public @NotNull ActionResult onOpen(@NotNull Player player, @NotNull Inventory inventory) {
-                MainMenuInventory.this.onOpen(player);
+                GameInventory.this.onOpen(player);
                 return new ActionResult();
             }
         });
@@ -67,71 +61,78 @@ public class MainMenuInventory extends Inventory {
     /**
      * This is called when the inventory is opened.
      *
-     * @param player    The instance of the player that opened the inventory.
+     * @param player The instance of the player that opened the inventory.
      */
     private void onOpen(@NotNull Player player) {
-        User user = new User(player);
 
-        // Create the smp item.
-        this.setTeleportItem(user,
-                "smp",
-                "&a&lSMP",
-                "&7Click to teleport to the public smp.",
+        // Spleef.
+        this.setGameItem("&b&lSpleef",
+                "spleef",
                 0, 1, 9, 10
         );
 
-        // Create the world of calm item.
-        this.setTeleportItem(user,
-                "worldofcalm",
-                "&b&lWorld of Calm",
-                "&7Click to teleport to the world of calm.",
-                2, 3, 11, 12
-        );
-
-        // Games.
+        // Hide and seek.
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
-                .setName("&d&lGames")
-                .setLore("&7Click to view all games and rooms.")
+                .setName("&a&lHide And Seek")
+                .setLore("&eComing soon...")
+                .addSlots(2, 3, 11, 12)
+        );
+
+        // Tower defence.
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&6&lTower Defence")
+                .setLore("&eComing soon...")
                 .addSlots(4, 5, 13, 14)
-                .addClickAction(new ClickAction() {
-                    @Override
-                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-                        GameInventory gameInventory = new GameInventory();
-                        gameInventory.open(player);
-                        return new ActionResult();
-                    }
-                })
         );
 
-        // Create the red-stone item.
-        this.setTeleportItem(user,
-                "redstone",
-                "&c&lRedstone",
-                "&7Click to teleport to the redstone world.",
-                6, 7, 15, 16
-        );
-
-        // Other.
+        // Tnt run.
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
-                .setName("&a&lMore")
+                .setName("&e&lTnt Run")
                 .setLore("&eComing soon...")
-                .addSlots(8, 17)
+                .addSlots(6, 7, 15, 16)
         );
 
-        // Shop.
+        // More.
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
-                .setName("&6&lShop")
+                .setName("&a&lMore Games")
                 .setLore("&eComing soon...")
-                .addSlots(18, 19, 20, 21,
-                        27, 28, 29, 30,
-                        36, 37, 38, 39,
-                        45, 46, 47, 48)
+                .addSlots(3, 17)
+        );
+
+        // TODO: Game Rooms.
+
+        // Back.
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&a&lBack")
+                .setLore("&7Click to go back to the main menu.")
+                        .addClickAction(new ClickAction() {
+                            @Override
+                            public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                                MainMenuInventory mainMenuInventory = new MainMenuInventory();
+                                mainMenuInventory.open(player);
+                                return new ActionResult();
+                            }
+                        })
+                .addSlots(45)
+        );
+
+        // More Rooms.
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&f&lMore Rooms")
+                .setLore("&eComing soon...")
+                .addSlots(46, 47, 48, 49, 50)
         );
 
         // Profile.
@@ -142,39 +143,24 @@ public class MainMenuInventory extends Inventory {
                 .setLore("&eComing soon...",
                         "&7",
                         "&7Paws &f" + new User(player).getPaws())
-                .addSlots(18, 19, 20, 21,
-                        27, 28, 29, 30,
-                        36, 37, 38, 39,
-                        45, 46, 47, 48)
+                .addSlots(51, 52, 53)
         );
     }
 
-    private void setTeleportItem(@NotNull User user, @NotNull String serverName, @NotNull String title, @NotNull String loreLine, int... slots) {
+    private void setGameItem(@NotNull String title, @NotNull String name, int... slots) {
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
                 .setName(title)
-                .addLore(loreLine)
-                .addLore("&7")
-                .addLore("&aOnline &f" + MineManiaMenus.getInstance().getAmountOnline(serverName))
-                .addSlots(slots)
+                .setLore("&7Click to create a game room for &f" + name)
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-                        Optional<RegisteredServer> optionalRegisteredServer = MineManiaMenus.getInstance().getProxyServer().getServer(serverName);
-
-                        // Check if the server doesn't currently exist.
-                        if (optionalRegisteredServer.isEmpty()) {
-                            user.sendMessage("&7This server is currently offline.");
-                            return new ActionResult().setCancelled(true);
-                        }
-
-                        // Otherwise, attempt connecting them to the server.
-                        user.sendMessage("&7Teleporting to &f" + serverName + "...");
-                        user.send(optionalRegisteredServer.get());
+                        // TODO Create a game room.
                         return new ActionResult();
                     }
                 })
+                .addSlots(slots)
         );
     }
 }

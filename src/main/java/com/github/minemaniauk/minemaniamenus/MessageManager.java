@@ -173,7 +173,7 @@ public class MessageManager {
         message = "&7" + message;
 
         for (String string : message.split("\n")) {
-            MineManiaMenus.getComponentLogger().info(MessageManager.convertAndParse(string, null));
+            MineManiaMenus.getInstance().getComponentLogger().info(MessageManager.convertAndParse(string, null));
         }
     }
 
@@ -183,7 +183,7 @@ public class MessageManager {
      * @param component The component.
      */
     public static void log(Component component) {
-        MineManiaMenus.getComponentLogger().info(component);
+        MineManiaMenus.getInstance().getComponentLogger().info(component);
     }
 
     /**
@@ -194,7 +194,7 @@ public class MessageManager {
     public static void warn(String message) {
         message = "&6" + message;
         for (String string : message.split("\n")) {
-            MineManiaMenus.getComponentLogger().warn(MessageManager.convertAndParse(string, null));
+            MineManiaMenus.getInstance().getComponentLogger().warn(MessageManager.convertAndParse(string, null));
         }
     }
 

@@ -85,6 +85,13 @@
             <version>2.2.2</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- MineManiaAPI -->
+        <dependency>
+            <groupId>com.github.MineManiaUK</groupId>
+            <artifactId>MineManiaAPI</artifactId>
+            <version>1.7.0</version>
+        </dependency>
     </dependencies>
 
     <profiles>

@@ -93,7 +93,7 @@ public class CommandHandler {
      * Used to register the commands with the proxy server.
      */
     public void register() {
-        CommandManager manager = MineManiaMenus.getServer().getCommandManager();
+        CommandManager manager = MineManiaMenus.getInstance().getProxyServer().getCommandManager();
 
         for (Command command : this.commands) {
             // Check if command is enabled.
@@ -135,7 +135,7 @@ public class CommandHandler {
      * this plugin in the proxy server.
      */
     public void unregister() {
-        CommandManager manager = MineManiaMenus.getServer().getCommandManager();
+        CommandManager manager = MineManiaMenus.getInstance().getProxyServer().getCommandManager();
 
         for (String commandName : this.registeredCommands) {
             // Unregister the command

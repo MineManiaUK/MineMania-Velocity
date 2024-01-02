@@ -5,29 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc1b1ffc-8583-436c-9ea6-ff543e4a2747" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/MineManiaMenus-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/MineManiaMenus-1.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/MessageManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/MessageManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/MineManiaMenus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/MineManiaMenus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/PlayerUtility.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/PlayerUtility.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/Sounds.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/Sounds.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/BaseCommandType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/BaseCommandType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandAliases.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandAliases.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandStatus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandSuggestions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandSuggestions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/CommandConfigurationHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/CommandConfigurationHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigMessages.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigMessages.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersAdapter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersAdapter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersDependency.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersDependency.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/ProtocolizeDependency.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/ProtocolizeDependency.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,8 +17,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="package-info" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -58,24 +38,25 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "copyright",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/joshuasmith/Library/CloudStorage/Dropbox/Responsorys/MineMania/MineManiaMenus&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
@@ -134,7 +115,11 @@
       <workItem from="1702499590901" duration="2108000" />
       <workItem from="1702503774042" duration="748000" />
       <workItem from="1702588737723" duration="1006000" />
-      <workItem from="1702595639162" duration="3104000" />
+      <workItem from="1702595639162" duration="5891000" />
+      <workItem from="1704057193727" duration="7000" />
+      <workItem from="1704129897665" duration="58000" />
+      <workItem from="1704138595732" duration="2449000" />
+      <workItem from="1704211534410" duration="1237000" />
     </task>
     <servers />
   </component>

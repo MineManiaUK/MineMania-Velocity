@@ -21,7 +21,7 @@
 package com.github.minemaniauk.minemaniamenus.command;
 
 import com.github.minemaniauk.minemaniamenus.MessageManager;
-import com.github.minemaniauk.minemaniamenus.Sounds;
+import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.User;
 import com.github.minemaniauk.minemaniamenus.configuration.ConfigMessages;
 import com.github.minemaniauk.minemaniamenus.configuration.ConfigurationManager;
@@ -136,7 +136,7 @@ public record Command(String identifier,
         // Play sound.
         if (this.getSound() != null || Objects.equals(this.getSound(), "")) {
             try {
-                Sounds.play(Sound.valueOf(this.getSound().toUpperCase(Locale.ROOT)), user.getUniqueId());
+                MineManiaMenus.getInstance().playSound(Sound.valueOf(this.getSound().toUpperCase(Locale.ROOT)), user.getUniqueId());
             } catch (IllegalArgumentException illegalArgumentException) {
                 MessageManager.warn("Invalid sound for command " + this.getName() + " : ");
                 illegalArgumentException.printStackTrace();
