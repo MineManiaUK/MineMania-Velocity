@@ -4,7 +4,7 @@
   <groupId>com.github.minemaniauk</groupId>
   <artifactId>MineManiaMenus</artifactId>
   <name>MineManiaMenus</name>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <build>
     <resources>
       <resource>

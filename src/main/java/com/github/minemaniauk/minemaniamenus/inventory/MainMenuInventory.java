@@ -119,7 +119,7 @@ public class MainMenuInventory extends Inventory {
                 .setCustomModelData(1)
                 .setName("&a&lMore")
                 .setLore("&eComing soon...")
-                .addSlots(8, 17)
+                .addSlots(8, 17, 17) // To stop start and end function.
         );
 
         // Shop.
@@ -142,10 +142,10 @@ public class MainMenuInventory extends Inventory {
                 .setLore("&eComing soon...",
                         "&7",
                         "&7Paws &f" + new User(player).getPaws())
-                .addSlots(18, 19, 20, 21,
-                        27, 28, 29, 30,
-                        36, 37, 38, 39,
-                        45, 46, 47, 48)
+                .addSlots(23, 24, 25, 26,
+                        32, 33, 34, 35,
+                        41, 42, 43, 44,
+                        50, 51, 52, 53)
         );
     }
 

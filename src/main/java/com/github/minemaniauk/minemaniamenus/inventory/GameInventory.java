@@ -104,7 +104,7 @@ public class GameInventory extends Inventory {
                 .setCustomModelData(1)
                 .setName("&a&lMore Games")
                 .setLore("&eComing soon...")
-                .addSlots(3, 17)
+                .addSlots(3, 17, 17)
         );
 
         // TODO: Game Rooms.

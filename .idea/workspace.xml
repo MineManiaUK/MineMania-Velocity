@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc1b1ffc-8583-436c-9ea6-ff543e4a2747" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameInventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameInventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/MainMenuInventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/MineManiaMenus-1.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +123,16 @@
       <workItem from="1704057193727" duration="7000" />
       <workItem from="1704129897665" duration="58000" />
       <workItem from="1704138595732" duration="2449000" />
-      <workItem from="1704211534410" duration="1237000" />
+      <workItem from="1704211534410" duration="5404000" />
+      <workItem from="1704413499819" duration="1010000" />
+      <workItem from="1704415617431" duration="138000" />
+      <workItem from="1704416069820" duration="267000" />
+      <workItem from="1704549892515" duration="1666000" />
+      <workItem from="1704986170940" duration="1109000" />
+      <workItem from="1705154658996" duration="9000" />
+      <workItem from="1705427132911" duration="609000" />
+      <workItem from="1705428049989" duration="595000" />
+      <workItem from="1705429052770" duration="1000" />
     </task>
     <servers />
   </component>
