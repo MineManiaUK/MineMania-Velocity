@@ -5,9 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bc1b1ffc-8583-436c-9ea6-ff543e4a2747" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/MessageManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/MineManiaMenus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/BaseCommandType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/Command.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandAliases.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandSuggestions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/command/CommandType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/CommandConfigurationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigMessages.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/configuration/ConfigurationManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersAdapter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/MiniPlaceholdersDependency.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/minemaniauk/minemaniamenus/dependencys/ProtocolizeDependency.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,6 +161,8 @@
       <workItem from="1705932408127" duration="18000" />
       <workItem from="1706103280054" duration="225000" />
       <workItem from="1706197837342" duration="108000" />
+      <workItem from="1706813939798" duration="196000" />
+      <workItem from="1706814139711" duration="36000" />
     </task>
     <servers />
   </component>
