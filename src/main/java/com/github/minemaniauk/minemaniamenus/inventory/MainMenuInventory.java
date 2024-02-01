@@ -107,9 +107,9 @@ public class MainMenuInventory extends Inventory {
 
         // Create the red-stone item.
         this.setTeleportItem(user,
-                "redstone",
-                "&c&lRedstone",
-                "&7Click to teleport to the redstone world.",
+                "battlegroundssmp",
+                "&c&lBattle Grounds",
+                "&7Click to teleport to the battle grounds world.",
                 6, 7, 15, 16
         );
 
