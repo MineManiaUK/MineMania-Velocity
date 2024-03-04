@@ -20,18 +20,32 @@
 
 package com.github.minemaniauk.minemaniamenus.inventory;
 
+import com.github.minemaniauk.api.database.collection.GameRoomCollection;
+import com.github.minemaniauk.api.database.record.GameRoomRecord;
+import com.github.minemaniauk.api.game.GameType;
+import com.github.minemaniauk.api.user.MineManiaUser;
 import com.github.minemaniauk.minemaniamenus.MessageManager;
+import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
+import com.github.minemaniauk.minemaniamenus.PublicTaskContainer;
 import com.github.minemaniauk.minemaniamenus.User;
+import com.github.smuddgge.squishydatabase.Query;
 import com.github.smuddgge.velocityinventory.Inventory;
 import com.github.smuddgge.velocityinventory.InventoryItem;
 import com.github.smuddgge.velocityinventory.action.ActionResult;
 import com.github.smuddgge.velocityinventory.action.action.ClickAction;
+import com.github.smuddgge.velocityinventory.action.action.CloseAction;
 import com.github.smuddgge.velocityinventory.action.action.OpenAction;
 import com.velocitypowered.api.proxy.Player;
 import dev.simplix.protocolize.api.inventory.InventoryClick;
+import dev.simplix.protocolize.api.inventory.InventoryClose;
 import dev.simplix.protocolize.data.ItemType;
 import dev.simplix.protocolize.data.inventory.InventoryType;
+import net.querz.nbt.tag.CompoundTag;
 import org.jetbrains.annotations.NotNull;
+
+import java.time.Duration;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents the game inventory.
@@ -49,10 +63,24 @@ public class GameInventory extends Inventory {
         this.setTitle(MessageManager.convertToLegacy("&f₴₴₴₴₴₴₴₴⏅"));
 
         // Add open action.
+        final UUID uuid = UUID.randomUUID();
         this.addAction(new OpenAction() {
             @Override
             public @NotNull ActionResult onOpen(@NotNull Player player, @NotNull Inventory inventory) {
                 GameInventory.this.onOpen(player);
+                PublicTaskContainer.getInstance().runLoopTask(
+                        () -> GameInventory.this.onOpen(player),
+                        Duration.ofSeconds(2),
+                        "GameInventory" + uuid
+                );
+                return new ActionResult();
+            }
+        });
+
+        this.addAction(new CloseAction() {
+            @Override
+            public @NotNull ActionResult onClose(@NotNull InventoryClose inventoryClose, @NotNull Inventory inventory) {
+                PublicTaskContainer.getInstance().stopTask("GameInventory" + uuid);
                 return new ActionResult();
             }
         });
@@ -64,10 +92,13 @@ public class GameInventory extends Inventory {
      * @param player The instance of the player that opened the inventory.
      */
     private void onOpen(@NotNull Player player) {
+        this.removeActions();
 
         // Spleef.
         this.setGameItem("&b&lSpleef",
                 "spleef",
+                player,
+                GameType.SPLEEF,
                 0, 1, 9, 10
         );
 
@@ -90,12 +121,11 @@ public class GameInventory extends Inventory {
         );
 
         // Tnt run.
-        this.setItem(new InventoryItem()
-                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
-                .setCustomModelData(1)
-                .setName("&e&lTnt Run")
-                .setLore("&eComing soon...")
-                .addSlots(6, 7, 15, 16)
+        this.setGameItem("&e&lTnt Run",
+                "tnt run",
+                player,
+                GameType.TNT_RUN,
+                6, 7, 15, 16
         );
 
         // More.
@@ -140,14 +170,16 @@ public class GameInventory extends Inventory {
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
                 .setName("&d&lProfile")
-                .setLore("&eComing soon...",
-                        "&7",
+                .setLore("&7",
                         "&7Paws &f" + new User(player).getPaws())
                 .addSlots(51, 52, 53)
         );
+
+        // Add rooms.
+        this.addRooms(player);
     }
 
-    private void setGameItem(@NotNull String title, @NotNull String name, int... slots) {
+    private void setGameItem(@NotNull String title, @NotNull String name, @NotNull Player player, @NotNull GameType gameType, int... slots) {
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
@@ -156,11 +188,118 @@ public class GameInventory extends Inventory {
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-                        // TODO Create a game room.
+                        GameRoomRecord record = new GameRoomRecord(player.getUniqueId(), gameType);
+                        record.setPrivate(true);
+                        record.save();
+                        new GameRoomInventory(record.getUuid()).open(player);
                         return new ActionResult();
                     }
                 })
                 .addSlots(slots)
+        );
+    }
+
+    private void addRooms(@NotNull Player player) {
+        // Get public rooms not in an arena.
+        List<GameRoomRecord> roomRecordList = MineManiaMenus.getInstance()
+                .getAPI().getDatabase()
+                .getTable(GameRoomCollection.class)
+                .getRecordList(new Query().match("is_private", false))
+                .stream().filter(gameRoom -> MineManiaMenus.getInstance().getAPI()
+                        .getGameManager()
+                        .getArena(gameRoom.getUuid())
+                        .isEmpty()
+                )
+                .toList();
+
+        // First room.
+        if (roomRecordList.isEmpty()) return;
+        final GameRoomRecord firstRecord = roomRecordList.get(0);
+        int slot = 27;
+        for (MineManiaUser user : firstRecord.getPlayers()) {
+            slot++;
+            if (slot > 32) continue;
+
+            // Create skull texture.
+            CompoundTag tag = new CompoundTag();
+            tag.putString("SkullOwner", user.getName());
+
+            // Set the player's item.
+            this.setItem(new InventoryItem()
+                    .setMaterial(ItemType.PLAYER_HEAD)
+                    .setNBT(tag)
+                    .setName("&f&l" + user.getName())
+                    .addSlots(slot)
+            );
+        }
+
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.TNT)
+                .setName("&c&lTnt Run")
+                .setLore("&7These players are waiting to player tnt run.")
+                .addSlots(33)
+        );
+
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&a&lJoin Game Room")
+                .addLore("&7Click to join this room and play tnt run!")
+                .addSlots(34, 35)
+                .addClickAction(new ClickAction() {
+                    @Override
+                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                        firstRecord.addPlayer(player.getUniqueId());
+                        firstRecord.save();
+                        new GameRoomInventory(firstRecord.getUuid());
+                        return new ActionResult();
+                    }
+                })
+        );
+
+        // Second room.
+        if (roomRecordList.size() < 2) return;
+        final GameRoomRecord secondRecord = roomRecordList.get(1);
+        slot = 36;
+        for (MineManiaUser user : firstRecord.getPlayers()) {
+            slot++;
+            if (slot > 41) continue;
+
+            // Create skull texture.
+            CompoundTag tag = new CompoundTag();
+            tag.putString("SkullOwner", user.getName());
+
+            // Set the player's item.
+            this.setItem(new InventoryItem()
+                    .setMaterial(ItemType.PLAYER_HEAD)
+                    .setNBT(tag)
+                    .setName("&f&l" + user.getName())
+                    .addSlots(slot)
+            );
+        }
+
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.TNT)
+                .setName("&c&lTnt Run")
+                .setLore("&7These players are waiting to player tnt run.")
+                .addSlots(42)
+        );
+
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&a&lJoin Game Room")
+                .addLore("&7Click to join this room and play tnt run!")
+                .addSlots(43, 44)
+                .addClickAction(new ClickAction() {
+                    @Override
+                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                        secondRecord.addPlayer(player.getUniqueId());
+                        secondRecord.save();
+                        new GameRoomInventory(secondRecord.getUuid());
+                        return new ActionResult();
+                    }
+                })
         );
     }
 }

@@ -397,6 +397,33 @@ public class MineManiaMenus implements MineManiaAPIContract {
     }
 
     /**
+     * Used to convert a mine mania user to a connected player.
+     *
+     * @param user The user to convert.
+     * @return The instance of the connected player.
+     */
+    public @NotNull Optional<Player> getPlayer(@NotNull MineManiaUser user) {
+        for (Player player : this.server.getAllPlayers()) {
+            if (player.getUniqueId().equals(user.getUniqueId())) return Optional.of(player);
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Used to attempt to get the instance of a server
+     * from its name.
+     *
+     * @param name The name of the server.
+     * @return The optional server.
+     */
+    public @NotNull Optional<RegisteredServer> getServer(@NotNull String name) {
+        for (RegisteredServer registeredServer : this.server.getAllServers()) {
+            if (registeredServer.getServerInfo().getName().equalsIgnoreCase(name)) return Optional.of(registeredServer);
+        }
+        return Optional.empty();
+    }
+
+    /**
      * Used to get this instance.
      *
      * @return This instance.

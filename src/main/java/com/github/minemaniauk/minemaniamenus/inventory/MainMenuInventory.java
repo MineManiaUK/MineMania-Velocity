@@ -20,6 +20,8 @@
 
 package com.github.minemaniauk.minemaniamenus.inventory;
 
+import com.github.minemaniauk.api.database.collection.GameRoomCollection;
+import com.github.minemaniauk.api.database.record.GameRoomRecord;
 import com.github.minemaniauk.minemaniamenus.MessageManager;
 import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.User;
@@ -98,6 +100,18 @@ public class MainMenuInventory extends Inventory {
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+
+                        final GameRoomRecord record = MineManiaMenus.getInstance().getAPI().getDatabase()
+                                .getTable(GameRoomCollection.class)
+                                .getGameRoomFromPlayer(player.getUniqueId())
+                                .orElse(null);
+
+                        // Check if they are in a game room.
+                        if (record != null) {
+                            new GameRoomInventory(record.getUuid()).open(player);
+                            return new ActionResult();
+                        }
+
                         GameInventory gameInventory = new GameInventory();
                         gameInventory.open(player);
                         return new ActionResult();
