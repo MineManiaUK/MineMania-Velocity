@@ -145,14 +145,13 @@ public class GameInventory extends Inventory {
                 .setCustomModelData(1)
                 .setName("&a&lBack")
                 .setLore("&7Click to go back to the main menu.")
-                        .addClickAction(new ClickAction() {
-                            @Override
-                            public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-                                MainMenuInventory mainMenuInventory = new MainMenuInventory();
-                                mainMenuInventory.open(player);
-                                return new ActionResult();
-                            }
-                        })
+                .addClickAction(new ClickAction() {
+                    @Override
+                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                        new MainMenuInventory().open(player);
+                        return new ActionResult();
+                    }
+                })
                 .addSlots(45)
         );
 
@@ -188,9 +187,11 @@ public class GameInventory extends Inventory {
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+
                         GameRoomRecord record = new GameRoomRecord(player.getUniqueId(), gameType);
                         record.setPrivate(true);
                         record.save();
+
                         new GameRoomInventory(record.getUuid()).open(player);
                         return new ActionResult();
                     }
@@ -249,9 +250,11 @@ public class GameInventory extends Inventory {
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+
                         firstRecord.addPlayer(player.getUniqueId());
                         firstRecord.save();
-                        new GameRoomInventory(firstRecord.getUuid());
+
+                        new GameRoomInventory(firstRecord.getUuid()).open(player);
                         return new ActionResult();
                     }
                 })
@@ -294,9 +297,11 @@ public class GameInventory extends Inventory {
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+
                         secondRecord.addPlayer(player.getUniqueId());
                         secondRecord.save();
-                        new GameRoomInventory(secondRecord.getUuid());
+
+                        new GameRoomInventory(secondRecord.getUuid()).open(player);
                         return new ActionResult();
                     }
                 })

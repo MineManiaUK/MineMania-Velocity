@@ -20,7 +20,6 @@
 
 package com.github.minemaniauk.minemaniamenus;
 
-import com.github.minemaniauk.api.MineManiaAPIContract;
 import com.github.minemaniauk.api.database.collection.UserCollection;
 import com.github.minemaniauk.api.database.record.UserRecord;
 import com.velocitypowered.api.proxy.ConnectionRequestBuilder;

@@ -20,7 +20,6 @@
 
 package com.github.minemaniauk.minemaniamenus.inventory;
 
-import com.github.kerbity.kerb.task.TaskContainer;
 import com.github.minemaniauk.api.database.collection.GameRoomCollection;
 import com.github.minemaniauk.api.database.record.GameRoomRecord;
 import com.github.minemaniauk.api.game.Arena;
@@ -220,8 +219,17 @@ public class GameRoomInventory extends Inventory {
                     .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                     .setCustomModelData(1)
                     .setName("&a&lStart Game")
-                    .setLore("&7Click to start the game.")
-                    .addSlots(48, 49, 50)
+                    .setLore("&7Click to start a game.",
+                            "&7",
+                            "&e&lAvailable Arenas"
+                    )
+                    .addLore(MineManiaMenus.getInstance().getAPI()
+                            .getGameManager()
+                            .getArenaAvailabilityAsLore(record.getGameType())
+                            .stream().map(line -> "&7- &f" + line)
+                            .toList()
+                    )
+                    .addSlots(48, 49)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {

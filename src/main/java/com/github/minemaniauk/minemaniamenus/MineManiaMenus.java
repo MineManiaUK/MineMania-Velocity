@@ -67,8 +67,8 @@ import java.util.*;
 public class MineManiaMenus implements MineManiaAPIContract {
 
     private static MineManiaMenus instance;
-    private ComponentLogger componentLogger;
-    private ProxyServer server;
+    private final ComponentLogger componentLogger;
+    private final ProxyServer server;
     private CommandHandler commandHandler;
 
     private final @NotNull Configuration configuration;

@@ -69,7 +69,7 @@ public class MainMenuInventory extends Inventory {
     /**
      * This is called when the inventory is opened.
      *
-     * @param player    The instance of the player that opened the inventory.
+     * @param player The instance of the player that opened the inventory.
      */
     private void onOpen(@NotNull Player player) {
         User user = new User(player);
