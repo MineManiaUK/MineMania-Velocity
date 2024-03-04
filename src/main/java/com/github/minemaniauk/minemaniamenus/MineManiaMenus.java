@@ -22,6 +22,8 @@ package com.github.minemaniauk.minemaniamenus;
 
 import com.github.minemaniauk.api.MineManiaAPI;
 import com.github.minemaniauk.api.MineManiaAPIContract;
+import com.github.minemaniauk.api.database.collection.UserCollection;
+import com.github.minemaniauk.api.database.record.UserRecord;
 import com.github.minemaniauk.api.kerb.event.player.PlayerChatEvent;
 import com.github.minemaniauk.api.kerb.event.useraction.UserActionHasPermissionListEvent;
 import com.github.minemaniauk.api.kerb.event.useraction.UserActionIsOnlineEvent;
@@ -37,8 +39,10 @@ import com.github.minemaniauk.minemaniamenus.dependencys.MiniPlaceholdersDepende
 import com.github.minemaniauk.minemaniamenus.dependencys.ProtocolizeDependency;
 import com.github.smuddgge.squishyconfiguration.ConfigurationFactory;
 import com.github.smuddgge.squishyconfiguration.interfaces.Configuration;
+import com.github.smuddgge.squishydatabase.Query;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
@@ -125,14 +129,70 @@ public class MineManiaMenus implements MineManiaAPIContract {
         }
     }
 
+    @Subscribe
+    public void onPlayerJoin(ServerConnectedEvent event) {
+        final String uuid = event.getPlayer().getUniqueId().toString();
+
+        UserRecord record = this.getAPI().getDatabase()
+                .getTable(UserCollection.class)
+                .getUserRecord(event.getPlayer().getUniqueId())
+                .orElse(null);
+
+        if (record == null) {
+            UserRecord first = new UserRecord();
+            first.mc_name = event.getPlayer().getUsername();
+            first.mc_uuid = uuid;
+
+            this.getAPI().getDatabase()
+                    .getTable(UserCollection.class)
+                    .insertRecord(first);
+        }
+
+        if (record.getMinecraftUuid().toString().equalsIgnoreCase(uuid)) return;
+
+        record.mc_uuid = uuid;
+
+        this.getAPI().getDatabase()
+                .getTable(UserCollection.class)
+                .insertRecord(record);
+    }
+
     @Override
     public @NotNull MineManiaUser getUser(@NotNull UUID uuid) {
-        return new MineManiaUser(uuid, this.server.getPlayer(uuid).orElseThrow().getUsername());
+        UserRecord record = this.getAPI().getDatabase()
+                .getTable(UserCollection.class)
+                .getFirstRecord(new Query().match("mc_uuid", uuid));
+
+        if (record == null) {
+            Player player = this.getProxyServer().getPlayer(uuid).orElse(null);
+
+            if (player == null) {
+                throw new RuntimeException("Player is not in database or online. There uuid is " + uuid);
+            }
+
+            return new MineManiaUser(uuid, player.getUsername());
+        }
+
+        return new MineManiaUser(uuid, record.getMinecraftName());
     }
 
     @Override
     public @NotNull MineManiaUser getUser(@NotNull String name) {
-        return new MineManiaUser(this.server.getPlayer(name).orElseThrow().getUniqueId(), name);
+        UserRecord record = this.getAPI().getDatabase()
+                .getTable(UserCollection.class)
+                .getFirstRecord(new Query().match("mc_name", name));
+
+        if (record == null) {
+            Player player = this.getProxyServer().getPlayer(name).orElse(null);
+
+            if (player == null) {
+                throw new RuntimeException("Player is not in database or online. There name is " + name);
+            }
+
+            return new MineManiaUser(player.getUniqueId(), name);
+        }
+
+        return new MineManiaUser(record.getMinecraftUuid(), name);
     }
 
     @Override

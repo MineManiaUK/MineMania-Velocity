@@ -216,7 +216,7 @@ public class GameInventory extends Inventory {
         // First room.
         if (roomRecordList.isEmpty()) return;
         final GameRoomRecord firstRecord = roomRecordList.get(0);
-        int slot = 27;
+        int slot = 26;
         for (MineManiaUser user : firstRecord.getPlayers()) {
             slot++;
             if (slot > 32) continue;
@@ -263,7 +263,7 @@ public class GameInventory extends Inventory {
         // Second room.
         if (roomRecordList.size() < 2) return;
         final GameRoomRecord secondRecord = roomRecordList.get(1);
-        slot = 36;
+        slot = 35;
         for (MineManiaUser user : firstRecord.getPlayers()) {
             slot++;
             if (slot > 41) continue;

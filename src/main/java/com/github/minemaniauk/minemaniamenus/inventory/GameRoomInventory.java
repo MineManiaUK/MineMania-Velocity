@@ -175,7 +175,7 @@ public class GameRoomInventory extends Inventory {
                             "&7",
                             "&fCurrently &ePrivate",
                             "&7Only invited players can join.")
-                    .addSlots(52, 53)
+                    .addSlots(53)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
