@@ -2,3 +2,8 @@ main_menu:
   type: "mainmenu"
   name: "menu"
   enabled: true
+
+invites:
+  type: "invites"
+  name: "invites"
+  enabled: true

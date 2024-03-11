@@ -20,9 +20,12 @@
 
 package com.github.minemaniauk.minemaniamenus.inventory;
 
+import com.github.minemaniauk.api.database.collection.GameRoomCollection;
+import com.github.minemaniauk.api.database.record.GameRoomRecord;
 import com.github.minemaniauk.minemaniamenus.MessageManager;
 import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.PublicTaskContainer;
+import com.github.minemaniauk.minemaniamenus.User;
 import com.github.smuddgge.velocityinventory.Inventory;
 import com.github.smuddgge.velocityinventory.InventoryItem;
 import com.github.smuddgge.velocityinventory.action.ActionResult;
@@ -82,6 +85,18 @@ public class GameRoomInvitePlayersInventory extends Inventory {
             slot++;
             if (slot > 44) continue;
 
+            // Check if the player has already been invited.
+            if (MineManiaMenus.getInstance().getAPI().getGameManager()
+                    .hasBeenInvited(invitePlayer.getUniqueId(), this.gameRoomIdentifier)) {
+
+                this.setItem(new InventoryItem()
+                        .setMaterial(ItemType.BLACK_STAINED_GLASS_PANE)
+                        .setName("&f&l" + invitePlayer.getGameProfile().getName() + " &a&lHas Been Invited")
+                        .addSlots(slot)
+                );
+                continue;
+            }
+
             // Create skull texture.
             CompoundTag tag = new CompoundTag();
             tag.putString("SkullOwner", invitePlayer.getGameProfile().getName());
@@ -94,6 +109,27 @@ public class GameRoomInvitePlayersInventory extends Inventory {
                     .setLore("&7Click to send a invite to this player.",
                             "&eComing Soon...")
                     .addSlots(slot)
+                    .addClickAction(new ClickAction() {
+                        @Override
+                        public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+
+                            // Get the game room.
+                            GameRoomRecord record = MineManiaMenus.getInstance().getAPI().getDatabase()
+                                    .getTable(GameRoomCollection.class)
+                                    .getGameRoom(GameRoomInvitePlayersInventory.this.gameRoomIdentifier)
+                                    .orElse(null);
+
+                            if (record == null) {
+                                new User(player).sendMessage("&7&l> &7The game room you are in no longer exists.");
+                                return new ActionResult();
+                            }
+
+                            MineManiaMenus.getInstance().getAPI().getGameManager()
+                                    .sendInvite(invitePlayer.getUniqueId(), record);
+
+                            return new ActionResult();
+                        }
+                    })
             );
         }
 

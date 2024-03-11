@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc1b1ffc-8583-436c-9ea6-ff543e4a2747" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/MaterialConverter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/MineManiaMenus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/MineManiaMenus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameRoomInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/minemaniauk/minemaniamenus/inventory/GameRoomInventory.java" afterDir="false" />
-    </list>
+    <list default="true" id="bc1b1ffc-8583-436c-9ea6-ff543e4a2747" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -159,6 +152,7 @@
       <workItem from="1709597351315" duration="2043000" />
       <workItem from="1709661644132" duration="721000" />
       <workItem from="1709665589978" duration="6482000" />
+      <workItem from="1710174979451" duration="3000" />
     </task>
     <servers />
   </component>

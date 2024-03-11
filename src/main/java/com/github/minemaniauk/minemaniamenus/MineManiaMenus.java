@@ -20,10 +20,14 @@
 
 package com.github.minemaniauk.minemaniamenus;
 
+import com.github.kerbity.kerb.client.listener.EventListener;
+import com.github.kerbity.kerb.packet.event.Event;
+import com.github.kerbity.kerb.packet.event.Priority;
 import com.github.minemaniauk.api.MineManiaAPI;
 import com.github.minemaniauk.api.MineManiaAPIContract;
 import com.github.minemaniauk.api.database.collection.UserCollection;
 import com.github.minemaniauk.api.database.record.UserRecord;
+import com.github.minemaniauk.api.kerb.event.gameroom.GameRoomInviteEvent;
 import com.github.minemaniauk.api.kerb.event.player.PlayerChatEvent;
 import com.github.minemaniauk.api.kerb.event.useraction.UserActionHasPermissionListEvent;
 import com.github.minemaniauk.api.kerb.event.useraction.UserActionIsOnlineEvent;
@@ -33,6 +37,7 @@ import com.github.minemaniauk.api.user.MineManiaUser;
 import com.github.minemaniauk.minemaniamenus.command.BaseCommandType;
 import com.github.minemaniauk.minemaniamenus.command.Command;
 import com.github.minemaniauk.minemaniamenus.command.CommandHandler;
+import com.github.minemaniauk.minemaniamenus.command.type.Invites;
 import com.github.minemaniauk.minemaniamenus.command.type.MainMenu;
 import com.github.minemaniauk.minemaniamenus.configuration.ConfigurationManager;
 import com.github.minemaniauk.minemaniamenus.dependencys.MiniPlaceholdersDependency;
@@ -97,6 +102,26 @@ public class MineManiaMenus implements MineManiaAPIContract {
         );
 
         ConfigurationManager.initialise(folder.toFile());
+
+        // Register event listeners.
+        this.api.getKerbClient().registerListener(Priority.HIGH, new EventListener<GameRoomInviteEvent>() {
+            @Override
+            public @Nullable Event onEvent(GameRoomInviteEvent event) {
+                Optional<Player> optionalPlayer = MineManiaMenus.this.getPlayer(
+                        MineManiaMenus.this.getUser(UUID.fromString(event.getGameRoomInvite().toPlayerUuid))
+                );
+
+                if (optionalPlayer.isEmpty()) return event;
+
+                new User(optionalPlayer.get()).sendMessage("&6&l> &7You have been invited to play &f"
+                        + event.getGameRoom().getGameType().getName()
+                        + " &7with &f"
+                        + event.getGameRoom().getOwner().getName()
+                        + "&7. &7Run the command &e/invites &7to join the game room."
+                );
+                return event;
+            }
+        });
     }
 
     @Subscribe
@@ -112,6 +137,7 @@ public class MineManiaMenus implements MineManiaAPIContract {
         this.commandHandler = new CommandHandler();
 
         this.commandHandler.addType(new MainMenu());
+        this.commandHandler.addType(new Invites());
 
         this.reloadCommands();
 
