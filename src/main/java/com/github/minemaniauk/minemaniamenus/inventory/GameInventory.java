@@ -24,10 +24,7 @@ import com.github.minemaniauk.api.database.collection.GameRoomCollection;
 import com.github.minemaniauk.api.database.record.GameRoomRecord;
 import com.github.minemaniauk.api.game.GameType;
 import com.github.minemaniauk.api.user.MineManiaUser;
-import com.github.minemaniauk.minemaniamenus.MessageManager;
-import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
-import com.github.minemaniauk.minemaniamenus.PublicTaskContainer;
-import com.github.minemaniauk.minemaniamenus.User;
+import com.github.minemaniauk.minemaniamenus.*;
 import com.github.smuddgge.squishydatabase.Query;
 import com.github.smuddgge.velocityinventory.Inventory;
 import com.github.smuddgge.velocityinventory.InventoryItem;
@@ -216,64 +213,38 @@ public class GameInventory extends Inventory {
         // First room.
         if (roomRecordList.isEmpty()) return;
         final GameRoomRecord firstRecord = roomRecordList.get(0);
-        int slot = 26;
-        for (MineManiaUser user : firstRecord.getPlayers()) {
-            slot++;
-            if (slot > 32) continue;
-
-            // Create skull texture.
-            CompoundTag tag = new CompoundTag();
-            tag.putString("SkullOwner", user.getName());
-
-            // Set the player's item.
-            this.setItem(new InventoryItem()
-                    .setMaterial(ItemType.PLAYER_HEAD)
-                    .setNBT(tag)
-                    .setName("&f&l" + user.getName())
-                    .addSlots(slot)
-            );
-        }
-
-        this.setItem(new InventoryItem()
-                .setMaterial(ItemType.TNT)
-                .setName("&c&lTnt Run")
-                .setLore("&7These players are waiting to player tnt run.")
-                .addSlots(33)
-        );
-
-        this.setItem(new InventoryItem()
-                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
-                .setCustomModelData(1)
-                .setName("&a&lJoin Game Room")
-                .addLore("&7Click to join this room and play tnt run!")
-                .addSlots(34, 35)
-                .addClickAction(new ClickAction() {
-                    @Override
-                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-
-                        firstRecord.addPlayer(player.getUniqueId());
-                        firstRecord.save();
-
-                        new GameRoomInventory(firstRecord.getUuid()).open(player);
-                        return new ActionResult();
-                    }
-                })
+        GameInventory.setRoomLine(
+                this,
+                firstRecord,
+                27,
+                player
         );
 
         // Second room.
         if (roomRecordList.size() < 2) return;
         final GameRoomRecord secondRecord = roomRecordList.get(1);
-        slot = 35;
-        for (MineManiaUser user : firstRecord.getPlayers()) {
+        GameInventory.setRoomLine(
+                this,
+                secondRecord,
+                36,
+                player
+        );
+    }
+
+    public static void setRoomLine(@NotNull Inventory inventory, @NotNull GameRoomRecord record, int startSlot, @NotNull Player player) {
+
+        // Add the users.
+        int slot = startSlot;
+        for (MineManiaUser user : record.getPlayers()) {
             slot++;
-            if (slot > 41) continue;
+            if (slot > startSlot + 5) continue;
 
             // Create skull texture.
             CompoundTag tag = new CompoundTag();
             tag.putString("SkullOwner", user.getName());
 
-            // Set the player's item.
-            this.setItem(new InventoryItem()
+            // Set the player item.
+            inventory.setItem(new InventoryItem()
                     .setMaterial(ItemType.PLAYER_HEAD)
                     .setNBT(tag)
                     .setName("&f&l" + user.getName())
@@ -281,27 +252,27 @@ public class GameInventory extends Inventory {
             );
         }
 
-        this.setItem(new InventoryItem()
-                .setMaterial(ItemType.TNT)
-                .setName("&c&lTnt Run")
-                .setLore("&7These players are waiting to player tnt run.")
-                .addSlots(42)
+        // Add the game type.
+        inventory.setItem(new InventoryItem()
+                .setMaterial(record.getGameType().getMaterial(new MaterialConverter()))
+                .setName("&f&l" + record.getGameType().getTitle())
+                .setLore("&7This game room will be paying &f" + record.getGameType().getName() + "&7.")
         );
 
-        this.setItem(new InventoryItem()
+        // Add join item.
+        inventory.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
                 .setName("&a&lJoin Game Room")
-                .addLore("&7Click to join this room and play tnt run!")
-                .addSlots(43, 44)
+                .setLore("&7Click to join this game room.",
+                        "&7",
+                        "&fGame Type &a" + record.getGameType().getName())
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-
-                        secondRecord.addPlayer(player.getUniqueId());
-                        secondRecord.save();
-
-                        new GameRoomInventory(secondRecord.getUuid()).open(player);
+                        record.addPlayer(player.getUniqueId());
+                        record.save();
+                        new GameRoomInventory(record.getUuid()).open(player);
                         return new ActionResult();
                     }
                 })

@@ -165,6 +165,21 @@ public class GameRoomInventory extends Inventory {
         // Add start button.
         this.setStartButton(record, player);
 
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&b&lInvite Players")
+                .setLore("&7Invite a player to your game room.")
+                .addSlots(51, 52)
+                .addClickAction(new ClickAction() {
+                    @Override
+                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                        new GameRoomInvitePlayersInventory(GameRoomInventory.this.gameRoomIdentifier).open(player);
+                        return new ActionResult();
+                    }
+                })
+        );
+
         // Add lock button.
         if (record.isPrivate()) {
             this.setItem(new InventoryItem()
@@ -197,7 +212,7 @@ public class GameRoomInventory extends Inventory {
                             "&7",
                             "&fCurrently &ePublic",
                             "&7Anyone can join.")
-                    .addSlots(52, 53)
+                    .addSlots(53)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
@@ -229,7 +244,7 @@ public class GameRoomInventory extends Inventory {
                             .stream().map(line -> "&7- &f" + line)
                             .toList()
                     )
-                    .addSlots(48, 49)
+                    .addSlots(48, 49, 50)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
@@ -246,7 +261,7 @@ public class GameRoomInventory extends Inventory {
                 .setCustomModelData(1)
                 .setName("&7&lStart Game")
                 .setLore("&fOnly the owner of the game room can start the game.")
-                .addSlots(46, 47)
+                .addSlots(48, 49, 50)
         );
     }
 

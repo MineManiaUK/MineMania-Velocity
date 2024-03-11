@@ -146,6 +146,7 @@ public class MineManiaMenus implements MineManiaAPIContract {
             this.getAPI().getDatabase()
                     .getTable(UserCollection.class)
                     .insertRecord(first);
+            return;
         }
 
         if (record.getMinecraftUuid().toString().equalsIgnoreCase(uuid)) return;
@@ -161,7 +162,7 @@ public class MineManiaMenus implements MineManiaAPIContract {
     public @NotNull MineManiaUser getUser(@NotNull UUID uuid) {
         UserRecord record = this.getAPI().getDatabase()
                 .getTable(UserCollection.class)
-                .getFirstRecord(new Query().match("mc_uuid", uuid));
+                .getFirstRecord(new Query().match("mc_uuid", uuid.toString()));
 
         if (record == null) {
             Player player = this.getProxyServer().getPlayer(uuid).orElse(null);
