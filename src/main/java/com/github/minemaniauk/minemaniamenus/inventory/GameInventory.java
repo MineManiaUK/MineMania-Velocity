@@ -50,6 +50,8 @@ import java.util.UUID;
  */
 public class GameInventory extends Inventory {
 
+    private boolean closed;
+
     /**
      * Used to create the game inventory.
      */
@@ -65,11 +67,7 @@ public class GameInventory extends Inventory {
             @Override
             public @NotNull ActionResult onOpen(@NotNull Player player, @NotNull Inventory inventory) {
                 GameInventory.this.onOpen(player);
-                PublicTaskContainer.getInstance().runLoopTask(
-                        () -> GameInventory.this.onOpen(player),
-                        Duration.ofSeconds(2),
-                        "GameInventory" + uuid
-                );
+                GameInventory.this.startRunTask(player, uuid);
                 return new ActionResult();
             }
         });
@@ -78,9 +76,22 @@ public class GameInventory extends Inventory {
             @Override
             public @NotNull ActionResult onClose(@NotNull InventoryClose inventoryClose, @NotNull Inventory inventory) {
                 PublicTaskContainer.getInstance().stopTask("GameInventory" + uuid);
+                GameInventory.this.closed = true;
                 return new ActionResult();
             }
         });
+    }
+
+    public void startRunTask(@NotNull Player player, @NotNull UUID uuid) {
+        PublicTaskContainer.getInstance().runTask(
+                () -> {
+                    GameInventory.this.onOpen(player);
+                    if (GameInventory.this.closed) return;
+                    startRunTask(player, uuid);
+                },
+                Duration.ofSeconds(2),
+                "gameRoomInventory" + uuid
+        );
     }
 
     /**
@@ -90,6 +101,12 @@ public class GameInventory extends Inventory {
      */
     private void onOpen(@NotNull Player player) {
         this.removeActions();
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&7")
+                .addSlots(0, 53)
+        );
 
         // Spleef.
         this.setGameItem("&b&lSpleef",
@@ -134,8 +151,6 @@ public class GameInventory extends Inventory {
                 .addSlots(3, 17, 17)
         );
 
-        // TODO: Game Rooms.
-
         // Back.
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
@@ -152,13 +167,23 @@ public class GameInventory extends Inventory {
                 .addSlots(45)
         );
 
+        // Reload.
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&b&lReload Game Room List")
+                .setLore("&7Click to reload the game room list.",
+                        "&7You can also click in any blank space to reload the list.")
+                .addSlots(46)
+        );
+
         // More Rooms.
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
                 .setCustomModelData(1)
                 .setName("&f&lMore Rooms")
                 .setLore("&eComing soon...")
-                .addSlots(46, 47, 48, 49, 50)
+                .addSlots(47, 48, 49, 50)
         );
 
         // Profile.
@@ -234,7 +259,7 @@ public class GameInventory extends Inventory {
     public static void setRoomLine(@NotNull Inventory inventory, @NotNull GameRoomRecord record, int startSlot, @NotNull Player player) {
 
         // Add the users.
-        int slot = startSlot;
+        int slot = startSlot - 1;
         for (MineManiaUser user : record.getPlayers()) {
             slot++;
             if (slot > startSlot + 5) continue;
@@ -257,6 +282,7 @@ public class GameInventory extends Inventory {
                 .setMaterial(record.getGameType().getMaterial(new MaterialConverter()))
                 .setName("&f&l" + record.getGameType().getTitle())
                 .setLore("&7This game room will be paying &f" + record.getGameType().getName() + "&7.")
+                .addSlots(startSlot + 6)
         );
 
         // Add join item.
@@ -267,6 +293,7 @@ public class GameInventory extends Inventory {
                 .setLore("&7Click to join this game room.",
                         "&7",
                         "&fGame Type &a" + record.getGameType().getName())
+                .addSlots(startSlot + 7, startSlot + 8)
                 .addClickAction(new ClickAction() {
                     @Override
                     public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {

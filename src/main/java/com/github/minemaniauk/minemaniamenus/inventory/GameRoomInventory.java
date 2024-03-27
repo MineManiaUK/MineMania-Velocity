@@ -24,10 +24,7 @@ import com.github.minemaniauk.api.database.collection.GameRoomCollection;
 import com.github.minemaniauk.api.database.record.GameRoomRecord;
 import com.github.minemaniauk.api.game.Arena;
 import com.github.minemaniauk.api.user.MineManiaUser;
-import com.github.minemaniauk.minemaniamenus.MessageManager;
-import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
-import com.github.minemaniauk.minemaniamenus.PublicTaskContainer;
-import com.github.minemaniauk.minemaniamenus.User;
+import com.github.minemaniauk.minemaniamenus.*;
 import com.github.smuddgge.velocityinventory.Inventory;
 import com.github.smuddgge.velocityinventory.InventoryItem;
 import com.github.smuddgge.velocityinventory.action.ActionResult;
@@ -55,6 +52,8 @@ import java.util.UUID;
 public class GameRoomInventory extends Inventory {
 
     private final @NotNull UUID gameRoomIdentifier;
+    private final @NotNull UUID taskUuid;
+    private boolean closed;
 
     /**
      * Used to create a game room inventory.
@@ -70,16 +69,12 @@ public class GameRoomInventory extends Inventory {
         this.setTitle(MessageManager.convertToLegacy("&f₴₴₴₴₴₴₴₴㉿"));
 
         // Add open action.
-        final UUID uuid = UUID.randomUUID();
+        this.taskUuid = UUID.randomUUID();
         this.addAction(new OpenAction() {
             @Override
             public @NotNull ActionResult onOpen(@NotNull Player player, @NotNull Inventory inventory) {
                 GameRoomInventory.this.onOpen(player);
-                PublicTaskContainer.getInstance().runLoopTask(
-                        () -> GameRoomInventory.this.onOpen(player),
-                        Duration.ofSeconds(2),
-                        "gameRoomInventory" + uuid
-                );
+                GameRoomInventory.this.startRunTask(player, taskUuid);
                 return new ActionResult();
             }
         });
@@ -87,10 +82,23 @@ public class GameRoomInventory extends Inventory {
         this.addAction(new CloseAction() {
             @Override
             public @NotNull ActionResult onClose(@NotNull InventoryClose inventoryClose, @NotNull Inventory inventory) {
-                PublicTaskContainer.getInstance().stopTask("gameRoomInventory" + uuid);
+                PublicTaskContainer.getInstance().stopTask("gameRoomInventory" + taskUuid);
+                GameRoomInventory.this.closed = true;
                 return new ActionResult();
             }
         });
+    }
+
+    public void startRunTask(@NotNull Player player, @NotNull UUID uuid) {
+        PublicTaskContainer.getInstance().runTask(
+                () -> {
+                    GameRoomInventory.this.onOpen(player);
+                    if (GameRoomInventory.this.closed) return;
+                    startRunTask(player, uuid);
+                },
+                Duration.ofSeconds(2),
+                "gameRoomInventory" + uuid
+        );
     }
 
     /**
@@ -100,6 +108,12 @@ public class GameRoomInventory extends Inventory {
      */
     private void onOpen(@NotNull Player player) {
         this.removeActions();
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&7")
+                .addSlots(0, 53)
+        );
 
         final GameRoomRecord record = MineManiaMenus.getInstance().getAPI().getDatabase()
                 .getTable(GameRoomCollection.class)
@@ -107,12 +121,22 @@ public class GameRoomInventory extends Inventory {
 
         // Check if the record is null.
         if (record == null) {
+            PublicTaskContainer.getInstance().stopTask("gameRoomInventory" + this.taskUuid);
+            GameRoomInventory.this.closed = true;
             new GameInventory().open(player);
             return;
         }
 
         // Set the players.
         this.setPlayers(record);
+
+        // Game type.
+        this.setItem(new InventoryItem()
+                .setMaterial(record.getGameType().getMaterial(new MaterialConverter()))
+                .setName("&f&l" + record.getGameType().getTitle())
+                .setLore("&7This game room will be playing &f" + record.getGameType().getName() + "&7.")
+                .addSlots(53)
+        );
 
         // Back button.
         this.setItem(new InventoryItem()
@@ -128,6 +152,16 @@ public class GameRoomInventory extends Inventory {
                         return new ActionResult();
                     }
                 })
+        );
+
+        // Reload.
+        this.setItem(new InventoryItem()
+                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                .setCustomModelData(1)
+                .setName("&b&lReload Player List")
+                .setLore("&7Click to reload the player list.",
+                        "&7You can also click in any blank space to reload the list.")
+                .addSlots(25)
         );
 
         // Leave button.
@@ -165,21 +199,48 @@ public class GameRoomInventory extends Inventory {
         // Add start button.
         this.setStartButton(record, player);
 
-        this.setItem(new InventoryItem()
-                .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
-                .setCustomModelData(1)
-                .setName("&b&lInvite Players")
-                .setLore("&7Invite a player to your game room.")
-                .addSlots(51, 52)
-                .addClickAction(new ClickAction() {
-                    @Override
-                    public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
-                        new GameRoomInvitePlayersInventory(GameRoomInventory.this.gameRoomIdentifier).open(player);
-                        return new ActionResult();
-                    }
-                })
-        );
+        if (player.getUniqueId().equals(record.getOwner().getUniqueId())) {
+            this.setItem(new InventoryItem()
+                    .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                    .setCustomModelData(1)
+                    .setName("&b&lInvite Players")
+                    .setLore("&7Invite a player to your game room.")
+                    .addSlots(50, 51)
+                    .addClickAction(new ClickAction() {
+                        @Override
+                        public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                            new GameRoomInvitePlayersInventory(GameRoomInventory.this.gameRoomIdentifier).open(player);
+                            return new ActionResult();
+                        }
+                    })
+            );
 
+            this.addOwnerToggle(record, player);
+        } else {
+            this.setItem(new InventoryItem()
+                    .setMaterial(ItemType.PINK_STAINED_GLASS_PANE)
+                    .setCustomModelData(1)
+                    .setName("&7&lInvite Players")
+                    .setLore("&fOnly the owner of the game room can invite players.")
+                    .addSlots(50, 51)
+            );
+            if (record.isPrivate()) {
+                this.setItem(new InventoryItem()
+                        .setMaterial(ItemType.ENDER_PEARL)
+                        .setName("&f&lThis Game Room is Private")
+                        .addSlots(52)
+                );
+            } else {
+                this.setItem(new InventoryItem()
+                        .setMaterial(ItemType.ENDER_EYE)
+                        .setName("&f&lThis Game Room is Public")
+                        .addSlots(52)
+                );
+            }
+        }
+    }
+
+    private void addOwnerToggle(@NotNull GameRoomRecord record, @NotNull Player player) {
         // Add lock button.
         if (record.isPrivate()) {
             this.setItem(new InventoryItem()
@@ -190,14 +251,14 @@ public class GameRoomInventory extends Inventory {
                             "&7",
                             "&fCurrently &ePrivate",
                             "&7Only invited players can join.")
-                    .addSlots(53)
+                    .addSlots(52)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
                             new Thread(() -> {
                                 record.setPrivate(false);
                                 record.save();
-                                GameRoomInventory.this.onOpen(player);
+                                new GameRoomInventory(GameRoomInventory.this.gameRoomIdentifier).open(player);
                             }).start();
                             return new ActionResult();
                         }
@@ -212,14 +273,14 @@ public class GameRoomInventory extends Inventory {
                             "&7",
                             "&fCurrently &ePublic",
                             "&7Anyone can join.")
-                    .addSlots(53)
+                    .addSlots(52)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
                             new Thread(() -> {
                                 record.setPrivate(true);
                                 record.save();
-                                GameRoomInventory.this.onOpen(player);
+                                new GameRoomInventory(GameRoomInventory.this.gameRoomIdentifier).open(player);
                             }).start();
                             return new ActionResult();
                         }
@@ -244,7 +305,7 @@ public class GameRoomInventory extends Inventory {
                             .stream().map(line -> "&7- &f" + line)
                             .toList()
                     )
-                    .addSlots(48, 49, 50)
+                    .addSlots(48, 49)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
@@ -261,7 +322,7 @@ public class GameRoomInventory extends Inventory {
                 .setCustomModelData(1)
                 .setName("&7&lStart Game")
                 .setLore("&fOnly the owner of the game room can start the game.")
-                .addSlots(48, 49, 50)
+                .addSlots(48, 49)
         );
     }
 
@@ -285,7 +346,7 @@ public class GameRoomInventory extends Inventory {
         // Create the iterator for the slots.
         Iterator<Integer> iterator = List.of(
                 11, 12, 13, 14, 15, 16,
-                19, 20, 21, 22, 23, 24, 25
+                19, 20, 21, 22, 23, 24
         ).iterator();
 
         for (MineManiaUser user : record.getPlayers()) {
@@ -300,7 +361,7 @@ public class GameRoomInventory extends Inventory {
             CompoundTag tag = new CompoundTag();
             tag.putString("SkullOwner", user.getName());
 
-            // Set the players item.
+            // Set the player's item.
             this.setItem(new InventoryItem()
                     .setMaterial(ItemType.PLAYER_HEAD)
                     .setNBT(tag)

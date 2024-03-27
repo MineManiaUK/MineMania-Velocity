@@ -23,6 +23,7 @@ package com.github.minemaniauk.minemaniamenus.inventory;
 import com.github.minemaniauk.api.database.collection.GameRoomCollection;
 import com.github.minemaniauk.api.database.record.GameRoomInviteRecord;
 import com.github.minemaniauk.api.database.record.GameRoomRecord;
+import com.github.minemaniauk.minemaniamenus.MessageManager;
 import com.github.minemaniauk.minemaniamenus.MineManiaMenus;
 import com.github.minemaniauk.minemaniamenus.User;
 import com.github.smuddgge.velocityinventory.Inventory;
@@ -50,7 +51,7 @@ public class GameRoomInvitesInventory extends Inventory {
     public GameRoomInvitesInventory() {
         super(InventoryType.GENERIC_9X3);
 
-        this.setTitle("&8&lLoading...");
+        this.setTitle(MessageManager.convertToLegacy("&8&lLoading..."));
 
         this.addAction(new OpenAction() {
             @Override
@@ -68,7 +69,7 @@ public class GameRoomInvitesInventory extends Inventory {
                 .getInviteList(player.getUniqueId());
 
         if (recordList.isEmpty()) {
-            this.setTitle("&8&lNo Invites");
+            this.setTitle(MessageManager.convertToLegacy("&8&lNo Invites"));
             this.setItem(new InventoryItem()
                     .setMaterial(ItemType.BLACK_STAINED_GLASS_PANE)
                     .setName("&a&lYou have no current invites to a game room.")
@@ -89,7 +90,7 @@ public class GameRoomInvitesInventory extends Inventory {
             return;
         }
 
-        this.setTitle("&8&lInvite From " + gameRoom.getOwner().getName());
+        this.setTitle(MessageManager.convertToLegacy("&8&lInvite From " + gameRoom.getOwner().getName()));
 
         this.setItem(new InventoryItem()
                 .setMaterial(ItemType.LIME_STAINED_GLASS_PANE)

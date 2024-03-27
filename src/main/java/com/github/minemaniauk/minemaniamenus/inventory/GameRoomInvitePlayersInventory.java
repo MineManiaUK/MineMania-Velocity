@@ -61,11 +61,6 @@ public class GameRoomInvitePlayersInventory extends Inventory {
             @Override
             public @NotNull ActionResult onOpen(@NotNull Player player, @NotNull Inventory inventory) {
                 GameRoomInvitePlayersInventory.this.onOpen(player);
-                PublicTaskContainer.getInstance().runLoopTask(
-                        () -> GameRoomInvitePlayersInventory.this.onOpen(player),
-                        Duration.ofSeconds(2),
-                        "GameRoomInvitePlayersInventory" + uuid
-                );
                 return new ActionResult();
             }
         });
@@ -80,6 +75,9 @@ public class GameRoomInvitePlayersInventory extends Inventory {
     }
 
     private void onOpen(@NotNull Player player) {
+        this.removeActions();
+        this.setItem(new InventoryItem().setMaterial(ItemType.AIR).addSlots(0, 53));
+
         int slot = -1;
         for (Player invitePlayer : MineManiaMenus.getInstance().getProxyServer().getAllPlayers()) {
             slot++;
@@ -106,12 +104,12 @@ public class GameRoomInvitePlayersInventory extends Inventory {
                     .setMaterial(ItemType.PLAYER_HEAD)
                     .setNBT(tag)
                     .setName("&6&lInvite &f&l" + invitePlayer.getGameProfile().getName())
-                    .setLore("&7Click to send a invite to this player.",
-                            "&eComing Soon...")
+                    .setLore("&7Click to send a invite to this player.")
                     .addSlots(slot)
                     .addClickAction(new ClickAction() {
                         @Override
                         public @NotNull ActionResult onClick(@NotNull InventoryClick inventoryClick, @NotNull Inventory inventory) {
+                            GameRoomInvitePlayersInventory.this.removeActions();
 
                             // Get the game room.
                             GameRoomRecord record = MineManiaMenus.getInstance().getAPI().getDatabase()
@@ -121,12 +119,14 @@ public class GameRoomInvitePlayersInventory extends Inventory {
 
                             if (record == null) {
                                 new User(player).sendMessage("&7&l> &7The game room you are in no longer exists.");
+                                new MainMenuInventory().open(player);
                                 return new ActionResult();
                             }
 
                             MineManiaMenus.getInstance().getAPI().getGameManager()
                                     .sendInvite(invitePlayer.getUniqueId(), record);
 
+                            GameRoomInvitePlayersInventory.this.onOpen(player);
                             return new ActionResult();
                         }
                     })

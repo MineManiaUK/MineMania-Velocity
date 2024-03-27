@@ -33,8 +33,8 @@ public class PublicTaskContainer extends TaskContainer {
         return super.runTask(runnable, duration, identifier);
     }
 
-    public @NotNull TaskContainer runLoopTask(@NotNull Runnable runnable, @NotNull Duration duration, @NotNull String identifier) {
-        return super.runLoopTask(runnable, duration, identifier);
+    public @NotNull TaskContainer stopTask(@NotNull String identifier) {
+        return super.stopTask(identifier);
     }
 
     public static @NotNull PublicTaskContainer getInstance() {
